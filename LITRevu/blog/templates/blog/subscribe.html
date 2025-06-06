@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>
+    Suivre d'autres utilisateurs
+</h3>
+<form method="get">
+    {{ search_form.query }}
+    <button type="submit" class="neumorphic neumorphic-button">Rechercher</button>
+</form>
+{% if results %}
+    <h3>Résultats :</h3>
+    <ul>
+        {% for user in results %}
+            <li>{{ user.username }}
+                <form method="post" action="{% url 'follow_user' user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="neumorphic neumorphic-button">S'abonner</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<h3>Abonnements</h3>
+<ul>
+    {% for follow in abonnements %}
+        <li>{{ follow.followed_user.username }}
+            <form method="post" action="{% url 'unfollow_user' follow.followed_user.id %}">
+                {% csrf_token %}
+                <button type="submit" class="neumorphic neumorphic-button">Se désabonner</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+
+<h3>Abonnés</h3>
+<ul>
+    {% for follow in abonnes %}
+        <li>{{ follow.user.username }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

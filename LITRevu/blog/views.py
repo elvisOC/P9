@@ -1,11 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from . import forms, models
+from .models import Ticket, Review, UserFollows
+
 
 @login_required
 def home(request):
-    ticket = models.Ticket.objects.all()
-    return render(request, 'blog/home.html', context={'ticket' : ticket})
+    ticket = models.Ticket.objects.filter(contributors__in=request.user.follows.all())
+    review = models.Review.objects.all()
+    return render(request, 'blog/home.html', context={'ticket' : ticket, 'review' : review})
 
 @login_required
 def publier_ticket(request):
@@ -18,3 +22,82 @@ def publier_ticket(request):
             ticket.save()
             return redirect('home')
     return render(request, 'blog/create_ticket_blog.html', context={'form': form})
+
+@login_required
+def publier_critique(request, ticket_id=None):
+    if ticket_id:
+        ticket = get_object_or_404(Ticket, id=ticket_id)
+
+        if request.method == 'POST':
+            review_form = forms.ReviewForm(request.POST)
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                review.ticket = ticket
+                review.uploader = request.user
+                review.save()
+                return redirect('home')
+        else:
+            review_form = forms.ReviewForm()
+
+        return render(request, 'blog/response_review_blog.html', {
+            'review_form': review_form,
+            'ticket': ticket
+        })
+
+
+    if request.method == 'POST':
+        ticket_form = forms.ticketForm(request.POST, request.FILES)
+        review_form = forms.ReviewForm(request.POST)
+
+        if ticket_form.is_valid() and review_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.uploader = request.user
+            ticket.save()
+
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.uploader = request.user
+            review.save()
+
+            return redirect('home')
+    else:
+        ticket_form = forms.ticketForm()
+        review_form = forms.ReviewForm()
+
+    return render(request, 'blog/create_review_blog.html', {
+        'ticket_form': ticket_form,
+        'review_form': review_form
+    })
+
+User = get_user_model()
+
+@login_required
+def subscribe(request):
+    search_form = forms.search_user(request.GET)
+    results = []
+    if search_form.is_valid():
+        query = search_form.cleaned_data['query']
+        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
+        
+    abonnements = UserFollows.objects.filter(user=request.user)
+    abonnes = UserFollows.objects.filter(followed_user=request.user)
+    
+    context={        
+    'search_form': search_form,
+    'results': results,
+    'abonnements': abonnements,
+    'abonnes': abonnes,
+    }
+    return render(request, 'blog/subscribe.html', context)
+        
+@login_required
+def follow_user(request, user_id):
+    followed = get_object_or_404(User, id=user_id)
+    UserFollows.objects.get_or_create(user=request.user, followed_user=followed)
+    return redirect('subscribe')
+
+@login_required
+def unfollow_user(request, user_id):
+    followed = get_object_or_404(User, id=user_id)
+    UserFollows.objects.filter(user=request.user, followed_user=followed).delete()
+    return redirect('subscribe')

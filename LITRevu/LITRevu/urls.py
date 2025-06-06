@@ -29,6 +29,12 @@ urlpatterns = [
     path('home/', blog.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('ticket/upload/', blog.views.publier_ticket, name='ticket_upload'),
+    path('review/upload', blog.views.publier_critique, name='review_upload'),
+    path('review/ticket/<int:ticket_id>/', blog.views.publier_critique, name='reply_to_ticket'),
+    path('subscribe/', blog.views.subscribe, name='subscribe'),
+    path('follow_user/<int:user_id>', blog.views.follow_user, name='follow_user'),
+    path('unfollow/<int:user_id>/', blog.views.unfollow_user, name='unfollow_user'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(

@@ -7,12 +7,28 @@
     <body>
         <div class="header">
             <h1>LITRevu</h1>
+            {%if user.is_authenticated %}
+                <div class="flux">
+                    <a href="{% url 'ticket_upload' %}" class="neumorphic neumorphic-button text-deco">Demander une critique</a>
+                </div>
+                <div>
+                    <a href="{% url 'review_upload' %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
+                </div>
+                <div>
+                    <a href="{% url 'subscribe' %}" class="neumorphic neumorphic-button text-deco">Abonnements</a>
+                </div>
+                <div class="nav-bar">
+                    <a href="{% url 'logout' %}" class="neumorphic neumorphic-button text-deco">Se déconnecter</a>
+                </div>
+            {% endif %}
         </div>
         <div class="container">
             {% block content %} {% endblock content %}
         </div>
-        {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
-        {% endif %}
+        <div class="footer">
+            {% if user.is_authenticated %}
+                <p>Vous êtes connecté en tant que {{ request.user }}. 
+            {% endif %}
+        </div>
     </body>
 </html>

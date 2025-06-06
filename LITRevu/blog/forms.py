@@ -10,13 +10,41 @@ class ticketForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'neumorphic neumorphic-input',
-                'placeholder': 'Titre du ticket'
             }),
             'description': forms.Textarea(attrs={
                 'class': 'neumorphic neumorphic-input',
-                'placeholder': 'Description'
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file'
             }),
         }
+        
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = ['rating', 'headline', 'body']
+        RATING_CHOICES = [(i, i) for i in range(1, 6)] 
+
+        rating = forms.ChoiceField(
+        choices=RATING_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
+        label='',  
+    )
+        widgets = {
+            'headline': forms.TextInput(attrs={
+                'class': 'neumorphic neumorphic-input',
+            }),
+            'body': forms.Textarea(attrs={
+                'class': 'neumorphic neumorphic-input',
+            }),
+        }
+        
+class search_user(forms.Form):
+    query = forms.CharField(
+    max_length=63,
+    label="Suivre d'autres utilisateurs",
+    widget=forms.TextInput(attrs={
+        'placeholder': "Nom d'utilisateur",
+        'class': 'neumorphic neumorphic-input'
+        })
+    )

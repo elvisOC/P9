@@ -10,9 +10,10 @@ body {
 }
 
 .header {
+    display: flex;
+    flex-direction: row;
     text-align: center;
-    margin-top: 20px;  
-    margin-bottom: 40px;  
+    margin-top: 50px;
 }
 
 .text-deco {
@@ -88,4 +89,27 @@ h1 {
 
 .neumorphic-button:active {
     box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+}
+
+.star-rating {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    display: inline-flex;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    padding: 0 0.1em;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
 }

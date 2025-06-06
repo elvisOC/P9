@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Répondre à une critique</h2>
+  <div class="neumorphic neumorphic-card">
+    <p><strong>Ticket :</strong> {{ ticket.title }}</p>
+    <p>{{ ticket.description }}</p>
+    {% if ticket.image %}
+      <img src="{{ ticket.image.url }}" alt="image" style="max-width: 200px;">
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      {{ review_form.as_p }}
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+{% endblock %}
