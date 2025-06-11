@@ -3,13 +3,58 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from . import forms, models
 from .models import Ticket, Review, UserFollows
+from django.db.models import Q
 
 
 @login_required
 def home(request):
-    ticket = models.Ticket.objects.filter(contributors__in=request.user.follows.all())
-    review = models.Review.objects.all()
-    return render(request, 'blog/home.html', context={'ticket' : ticket, 'review' : review})
+    user = request.user
+    followed_user = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
+    
+    tickets = Ticket.objects.filter(
+        Q(user__in=followed_user) | Q(user=user)
+    )
+
+    reviews = Review.objects.select_related('ticket').filter(
+        Q(user__in=followed_user) | Q(user=user)
+    )
+    
+    for t in tickets:
+        t.content_type = 'TICKET'
+    for r in reviews:
+        r.content_type = 'REVIEW'
+    
+    tickets_with_review = set(review.ticket.id for review in reviews)
+
+    for ticket in tickets:
+        ticket.has_review = int(ticket.id) in tickets_with_review
+    
+    flux = sorted(
+    list(tickets) + list(reviews),
+    key=lambda instance: instance.time_created,
+    reverse=True
+    )
+    return render(request, 'blog/home.html', context={'flux' : flux})
+
+@login_required
+def posts(request):
+    user = request.user
+    
+    tickets = Ticket.objects.filter(user=user)
+    reviews = Review.objects.select_related('ticket').filter(user=user)
+
+    posts = sorted(
+    list(tickets) + list(reviews),
+    key=lambda instance: instance.time_created,
+    reverse=True
+    )
+    
+    for t in tickets:
+        t.content_type = 'TICKET'
+    for r in reviews:
+        r.content_type = 'REVIEW'
+
+    return render(request, 'blog/posts.html', context={'flux' : posts})
 
 @login_required
 def publier_ticket(request):
@@ -18,7 +63,7 @@ def publier_ticket(request):
         form = forms.ticketForm(request.POST, request.FILES)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.uploader = request.user
+            ticket.user = request.user
             ticket.save()
             return redirect('home')
     return render(request, 'blog/create_ticket_blog.html', context={'form': form})
@@ -33,7 +78,7 @@ def publier_critique(request, ticket_id=None):
             if review_form.is_valid():
                 review = review_form.save(commit=False)
                 review.ticket = ticket
-                review.uploader = request.user
+                review.user = request.user
                 review.save()
                 return redirect('home')
         else:

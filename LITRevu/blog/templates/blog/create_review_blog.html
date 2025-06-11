@@ -8,8 +8,29 @@
             {{ ticket_form.as_p }}
 
             <h3>Critique</h3>
-            {{ review_form.as_p }}
-            <button type="submit">Envoyer</button>
+             <div class="form-group">
+                {{ review_form.headline.label_tag }}
+                {{ review_form.headline }}
+            </div>
+            <div>
+                <label>Note :</label>
+            </div>
+            <div class="form-group star-rating">
+                <div class="rating-label">Note :</div>
+                {% for radio in review_form.rating %}
+                    {{ radio.tag }} 
+                    <label for="{{ radio.id_for_label }}">
+                        <span class="star">★</span>
+                    </label>
+                {% endfor %}
+            </div>
+            <div>
+                {{ review_form.body.label_tag }}
+            </div>
+            <div class="form-group">
+                {{ review_form.body }}
+            </div>
+            <button type="submit" class="neumorphic neumorphic-button">Envoyer</button>
         </form>
     </div> 
 {% endblock content %}

@@ -1,22 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="home-menu">
-        <div>
-            <a href="{% url 'ticket_upload' %}" class="neumorphic neumorphic-button text-deco">Demander une critique</a>
-        </div>
-        <div>
-            <a href="{% url 'review_upload' %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
-        </div>
-    </div>
 {% for item in flux %}
     {% if item.content_type == 'TICKET' %}
-    <div class="neumorphic neumorphic-home-card ticket-card">
+    <div class="neumorphic neumorphic-posts-card ticket-card">
         <div class="ticket-header">
-            {% if item.user == request.user %}
             <p class="ticket-author">Vous avez demandé une critique</p>
-            {% elif item.user != request.user %}
-            <p class="ticket-author">{{ item.user }} a demandé une critique</p>
-            {% endif %}
             <p class="ticket-date">{{ item.time_created }}</p>
         </div>
         <h3 class="ticket-title">{{ item.title }}</h3>
@@ -31,13 +19,9 @@
         </div>
     </div>
     {% elif item.content_type == 'REVIEW' %}
-        <div class="neumorphic neumorphic-home-card review-card">
+        <div class="neumorphic neumorphic-posts-card review-card">
             <div class="review-header">
-            {% if item.user == request.user %}
             <p class="review-author">Vous avez publié une critique</p>
-            {% elif item.user != request.user %}
-            <p class="review-author">{{ item.user }} a publié une critique</p>
-            {% endif %}
             <p class="review-date">{{ item.time_created }}</p>
         </div>
         <h3 class="review-title">{{ item.headline }}</h3>
@@ -55,4 +39,4 @@
         </div>
     {% endif %}
 {% endfor %}
-{% endblock content %}
+{% endblock %}

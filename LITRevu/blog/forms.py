@@ -20,16 +20,17 @@ class ticketForm(forms.ModelForm):
         }
         
 class ReviewForm(forms.ModelForm):
+    RATING_CHOICES = [(i, i) for i in range(1, 6)]
+
+    rating = forms.ChoiceField(
+        choices=RATING_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
+        label='Rating'
+    )
+
     class Meta:
         model = models.Review
         fields = ['rating', 'headline', 'body']
-        RATING_CHOICES = [(i, i) for i in range(1, 6)] 
-
-        rating = forms.ChoiceField(
-        choices=RATING_CHOICES,
-        widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
-        label='',  
-    )
         widgets = {
             'headline': forms.TextInput(attrs={
                 'class': 'neumorphic neumorphic-input',
