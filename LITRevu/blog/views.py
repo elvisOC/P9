@@ -114,6 +114,44 @@ def publier_critique(request, ticket_id=None):
         'review_form': review_form
     })
 
+@login_required
+def edit_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+    form = forms.ticketForm(request.POST or None, request.FILES or None, instance=ticket)
+    if form.is_valid():
+        ticket = form.save(commit=False)
+        return redirect('posts')
+    return render(request, 'blog/edit_ticket.html', context={'form' : form})
+
+@login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+    form = forms.ticketForm(request.POST or None, request.FILES or None, instance=ticket)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('posts')
+    return render(request, 'blog/delete_ticket.html', context={'ticket' : ticket})
+        
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
+    if form.is_valid():
+        review = form.save(commit=False)
+        return redirect('posts')
+    return render(request, 'blog/edit_review.html', context={'form' : form})
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('posts')
+    return render(request, 'blog/delete_review.html', context={'review' : review})
+
+
 User = get_user_model()
 
 @login_required

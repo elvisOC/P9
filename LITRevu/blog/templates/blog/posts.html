@@ -11,11 +11,8 @@
         <p class="ticket-description">{{ item.description }}</p>
         <img src="{{ item.image.url }}" class="img-card ticket-image">
         <div class="ticket-footer">
-        {% if not item.has_review %}
-            <a href="{% url 'reply_to_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
-        {% else %}
-            <p><em>Une critique a déjà été publiée pour ce ticket.</em></p>
-        {% endif %}
+            <a href="{% url 'edit_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
+            <a href="{% url 'delete_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
         </div>
     </div>
     {% elif item.content_type == 'REVIEW' %}
@@ -34,6 +31,10 @@
                 </div>
                 <h3 class="ticket-title">🎫 Ticket : {{ item.ticket.title }}</h3>
                 <img src="{{ item.ticket.image.url }}" class="img-card ticket-image">
+            </div>
+            <div class="review-footer">
+                <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
+                <a href="{% url 'delete_review' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
             </div>
             {% endif %}
         </div>

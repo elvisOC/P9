@@ -35,6 +35,10 @@ urlpatterns = [
     path('subscribe/', blog.views.subscribe, name='subscribe'),
     path('follow_user/<int:user_id>', blog.views.follow_user, name='follow_user'),
     path('unfollow/<int:user_id>/', blog.views.unfollow_user, name='unfollow_user'),
+    path('ticket/edit/<int:ticket_id>/', blog.views.edit_ticket, name='edit_ticket'),
+    path('ticket/delete/<int:ticket_id>/', blog.views.delete_ticket, name='delete_ticket'),
+    path('review/edit/<int:review_id>/', blog.views.edit_review, name='edit_review'),
+    path('review/delete/<int:review_id>/', blog.views.delete_review, name='delete_review'),
 
 ]
 if settings.DEBUG:

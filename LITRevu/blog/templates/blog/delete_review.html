@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="neumorphic neumorphic-home-card">
+        <h2>Supprimer la critique</h2>
+        <p>Es-tu sûr de vouloir supprimer cette critique ? Cette action est irréversible.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="neumorphic neumorphic-button text-deco">Oui, supprimer</button>
+            <a href="{% url 'posts' %}" class="neumorphic neumorphic-button text-deco">Annuler</a>
+        </form>
+    </div>
+{% endblock %}
