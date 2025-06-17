@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from . import forms, models
+from . import forms
 from .models import Ticket, Review, UserFollows
 from django.db.models import Q
 
@@ -15,9 +15,15 @@ def home(request):
         Q(user__in=followed_user) | Q(user=user)
     )
 
-    reviews = Review.objects.select_related('ticket').filter(
-        Q(user__in=followed_user) | Q(user=user)
+    reviews_from_followed = Review.objects.select_related('ticket').filter(
+        Q(user__in=followed_user) | 
+        Q(user=user) |
+        Q(ticket__user__in=followed_user)
     )
+    
+    reviews_on_own_ticket = Review.objects.filter(ticket__user=user)
+    
+    reviews = (reviews_from_followed | reviews_on_own_ticket).distinct()
     
     for t in tickets:
         t.content_type = 'TICKET'
@@ -30,9 +36,9 @@ def home(request):
         ticket.has_review = int(ticket.id) in tickets_with_review
     
     flux = sorted(
-    list(tickets) + list(reviews),
-    key=lambda instance: instance.time_created,
-    reverse=True
+        list(tickets) + list(reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
     )
     return render(request, 'blog/home.html', context={'flux' : flux})
 
@@ -126,13 +132,11 @@ def edit_ticket(request, ticket_id):
 @login_required
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
-    form = forms.ticketForm(request.POST or None, request.FILES or None, instance=ticket)
     if request.method == 'POST':
         ticket.delete()
         return redirect('posts')
     return render(request, 'blog/delete_ticket.html', context={'ticket' : ticket})
         
-
 @login_required
 def edit_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
@@ -145,7 +149,6 @@ def edit_review(request, review_id):
 @login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
-    form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
     if request.method == 'POST':
         review.delete()
         return redirect('posts')
@@ -157,7 +160,7 @@ User = get_user_model()
 @login_required
 def subscribe(request):
     search_form = forms.search_user(request.GET)
-    results = []
+    results = None
     if search_form.is_valid():
         query = search_form.cleaned_data['query']
         results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)

@@ -9,50 +9,6 @@
         </div>
     </div>
 {% for item in flux %}
-    {% if item.content_type == 'TICKET' %}
-    <div class="neumorphic neumorphic-home-card ticket-card">
-        <div class="ticket-header">
-            {% if item.user == request.user %}
-            <p class="ticket-author">Vous avez demandé une critique</p>
-            {% elif item.user != request.user %}
-            <p class="ticket-author">{{ item.user }} a demandé une critique</p>
-            {% endif %}
-            <p class="ticket-date">{{ item.time_created }}</p>
-        </div>
-        <h3 class="ticket-title">{{ item.title }}</h3>
-        <p class="ticket-description">{{ item.description }}</p>
-        <img src="{{ item.image.url }}" class="img-card ticket-image">
-        <div class="ticket-footer">
-        {% if not item.has_review %}
-            <a href="{% url 'reply_to_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
-        {% else %}
-            <p><em>Une critique a déjà été publiée pour ce ticket.</em></p>
-        {% endif %}
-        </div>
-    </div>
-    {% elif item.content_type == 'REVIEW' %}
-        <div class="neumorphic neumorphic-home-card review-card">
-            <div class="review-header">
-            {% if item.user == request.user %}
-            <p class="review-author">Vous avez publié une critique</p>
-            {% elif item.user != request.user %}
-            <p class="review-author">{{ item.user }} a publié une critique</p>
-            {% endif %}
-            <p class="review-date">{{ item.time_created }}</p>
-        </div>
-        <h3 class="review-title">{{ item.headline }}</h3>
-        <p class="review-description">{{ item.description }} {{ item.rating }}</p>
-            <p>{{ item.body }}</p>
-            {% if item.ticket %}
-            <div class="neumorphic neumorphic-home-card ticket-card">
-                <div class="ticket-header">
-                    <p class="ticket-author">{{ item.ticket.user }}</p>
-                </div>
-                <h3 class="ticket-title">🎫 Ticket : {{ item.ticket.title }}</h3>
-                <img src="{{ item.ticket.image.url }}" class="img-card ticket-image">
-            </div>
-            {% endif %}
-        </div>
-    {% endif %}
+    {% include 'blog/_card.html' with item=item show_review_option=True show_post_option=False %}
 {% endfor %}
 {% endblock content %}

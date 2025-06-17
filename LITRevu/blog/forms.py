@@ -15,7 +15,8 @@ class ticketForm(forms.ModelForm):
                 'class': 'neumorphic neumorphic-input',
             }),
             'image': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file'
+            'class': 'hidden-file-input', 
+            'id': 'file-upload', 
             }),
         }
         
@@ -24,8 +25,7 @@ class ReviewForm(forms.ModelForm):
 
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
-        widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
-        label='Rating'
+        widget=forms.RadioSelect(),
     )
 
     class Meta:

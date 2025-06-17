@@ -1,43 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>
-    Suivre d'autres utilisateurs
-</h3>
-<form method="get">
-    {{ search_form.query }}
-    <button type="submit" class="neumorphic neumorphic-button">Rechercher</button>
-</form>
-{% if results %}
-    <h3>Résultats :</h3>
+<div class="neumorphic neumorphic-subscribe">
+    <h3>
+        Suivre d'autres utilisateurs
+    </h3>
+    <form method="get">
+        {{ search_form.query }}
+        <button type="submit" class="neumorphic neumorphic-button">Rechercher</button>
+    </form>
+    {% if results is not None %}
+        {% if results %}
+            <h3>Résultats :</h3>
+            <ul>
+                {% for user in results %}
+                    <li>{{ user.username }}
+                        <form method="post" action="{% url 'follow_user' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="neumorphic neumorphic-button">S'abonner</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Cet utilisateur n'existe pas</p>
+        {% endif %}
+    {% endif %}
+
+    <h3>Abonnements</h3>
     <ul>
-        {% for user in results %}
-            <li>{{ user.username }}
-                <form method="post" action="{% url 'follow_user' user.id %}">
+        {% for follow in abonnements %}
+            <li style="display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ follow.followed_user.username }}</span>
+                <form method="post" action="{% url 'unfollow_user' follow.followed_user.id %}" style="margin: 0;">
                     {% csrf_token %}
-                    <button type="submit" class="neumorphic neumorphic-button">S'abonner</button>
+                    <button type="submit" class="neumorphic neumorphic-button">Se désabonner</button>
                 </form>
             </li>
         {% endfor %}
     </ul>
-{% endif %}
-
-<h3>Abonnements</h3>
-<ul>
-    {% for follow in abonnements %}
-        <li>{{ follow.followed_user.username }}
-            <form method="post" action="{% url 'unfollow_user' follow.followed_user.id %}">
-                {% csrf_token %}
-                <button type="submit" class="neumorphic neumorphic-button">Se désabonner</button>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
 
 
-<h3>Abonnés</h3>
-<ul>
-    {% for follow in abonnes %}
-        <li>{{ follow.user.username }}</li>
-    {% endfor %}
-</ul>
+    <h3>Abonnés</h3>
+    <ul>
+        {% for follow in abonnes %}
+            <li>{{ follow.user.username }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

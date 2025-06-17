@@ -1,36 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Créer une critique</h2>
-        <div class="neumorphic neumorphic-card">
+        <div class="neumorphic neumorphic-home-card review-card">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <h3>Livre/Article</h3>
-            {{ ticket_form.as_p }}
+            <h3>Titre</h3>
+            {{ ticket_form.title}}
+            <h3>Description :</h3>
+            {{ ticket_form.description }}
+            <h3>Image</h3>
+            <div style="height: 20px;"></div>
+            {{ ticket_form.image }}
+            <label for="file-upload" class="neumorphic neumorphic-button">
+                Choisir un fichier
+            </label>
+            <script>
+                const input = document.getElementById("file-upload");
+                const label = document.querySelector("label[for='file-upload']");
 
-            <h3>Critique</h3>
-             <div class="form-group">
-                {{ review_form.headline.label_tag }}
-                {{ review_form.headline }}
-            </div>
-            <div>
-                <label>Note :</label>
-            </div>
-            <div class="form-group star-rating">
-                <div class="rating-label">Note :</div>
+                input.addEventListener("change", function () {
+                    const fileName = this.files[0]?.name || "Choisir un fichier";
+                    label.textContent = fileName;
+                })
+            </script>
+            <div style="height: 20px;"></div>
+            <hr>
+            <h2>Critique</h2>
+            <h3>Titre</h3>
+            {{ review_form.headline }}
+            <h3>Note</h3>
+            <div class="rating-group">
                 {% for radio in review_form.rating %}
-                    {{ radio.tag }} 
-                    <label for="{{ radio.id_for_label }}">
-                        <span class="star">★</span>
-                    </label>
+                <label for="{{ radio.id_for_label }}" class="rating-item">
+                    {{ radio.tag }}
+                    {{ radio.choice_label }}
+                </label>
                 {% endfor %}
             </div>
-            <div>
-                {{ review_form.body.label_tag }}
+            <h3>Commentaire</h3>
+            {{ review_form.body }}
+            <div style="height: 20px;"></div>
+                        <div style="text-align: right;">
+                <button type="submit"  class="neumorphic neumorphic-button">Envoyer</button>
             </div>
-            <div class="form-group">
-                {{ review_form.body }}
-            </div>
-            <button type="submit" class="neumorphic neumorphic-button">Envoyer</button>
         </form>
     </div> 
 {% endblock content %}

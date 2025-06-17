@@ -1,43 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for item in flux %}
-    {% if item.content_type == 'TICKET' %}
-    <div class="neumorphic neumorphic-posts-card ticket-card">
-        <div class="ticket-header">
-            <p class="ticket-author">Vous avez demandé une critique</p>
-            <p class="ticket-date">{{ item.time_created }}</p>
-        </div>
-        <h3 class="ticket-title">{{ item.title }}</h3>
-        <p class="ticket-description">{{ item.description }}</p>
-        <img src="{{ item.image.url }}" class="img-card ticket-image">
-        <div class="ticket-footer">
-            <a href="{% url 'edit_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
-            <a href="{% url 'delete_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
-        </div>
-    </div>
-    {% elif item.content_type == 'REVIEW' %}
-        <div class="neumorphic neumorphic-posts-card review-card">
-            <div class="review-header">
-            <p class="review-author">Vous avez publié une critique</p>
-            <p class="review-date">{{ item.time_created }}</p>
-        </div>
-        <h3 class="review-title">{{ item.headline }}</h3>
-        <p class="review-description">{{ item.description }} {{ item.rating }}</p>
-            <p>{{ item.body }}</p>
-            {% if item.ticket %}
-            <div class="neumorphic neumorphic-home-card ticket-card">
-                <div class="ticket-header">
-                    <p class="ticket-author">{{ item.ticket.user }}</p>
-                </div>
-                <h3 class="ticket-title">🎫 Ticket : {{ item.ticket.title }}</h3>
-                <img src="{{ item.ticket.image.url }}" class="img-card ticket-image">
-            </div>
-            <div class="review-footer">
-                <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
-                <a href="{% url 'delete_review' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
-            </div>
-            {% endif %}
-        </div>
-    {% endif %}
+    {% include 'blog/_card.html' with item=item show_review_option=False show_post_option=True %}
 {% endfor %}
 {% endblock %}

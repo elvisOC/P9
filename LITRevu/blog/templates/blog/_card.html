@@ -1,0 +1,69 @@
+{% if item.content_type == 'TICKET' %}
+<div class="neumorphic neumorphic-home-card ticket-card">
+    <div class="ticket-header">
+        {% if item.user == request.user %}
+            <p class="ticket-author">Vous avez demandé une critique</p>
+        {% else %}
+            <p class="ticket-author">{{ item.user }} a demandé une critique</p>
+        {% endif %}
+        <p class="ticket-date">{{ item.time_created }}</p>
+    </div>
+    <h3 class="ticket-title">{{ item.title }}</h3>
+    <p class="ticket-description">{{ item.description }}</p>
+    {% if item.image %}
+        <img src="{{ item.image.url }}" class="ticket-image">
+    {% endif %}
+    {% if show_post_option and item.user == request.user %}
+    <div class="ticket-footer">
+        <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
+        <a href="{% url 'delete_review' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
+    </div>
+    {% endif %}
+    {% if show_review_option %}
+    <div class="ticket-footer">
+        {% if not item.has_review %}
+            <a href="{% url 'reply_to_ticket' item.id %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
+        {% else %}
+            <p><em>Une critique a déjà été publiée pour ce ticket.</em></p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% elif item.content_type == 'REVIEW' %}
+<div class="neumorphic neumorphic-home-card review-card">
+    <div class="review-header">
+        {% if item.user == request.user %}
+            <p class="review-author">Vous avez publié une critique</p>
+        {% else %}
+            <p class="review-author">{{ item.user }} a publié une critique</p>
+        {% endif %}
+        <p class="review-date">{{ item.time_created }}</p>
+    </div>
+    <h3 class="review-title">{{ item.headline }}</h3>
+    <p class="review-description">{{ item.description }} {{ item.rating }}</p>
+    {% if show_post_option and item.user == request.user %}
+        <div class="review-footer">
+            <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
+            <a href="{% url 'delete_review' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
+        </div>
+        {% endif %}
+    <p>{{ item.body }}</p>
+    {% if item.ticket %}
+    <div class="neumorphic neumorphic-home-card ticket-card embedded-ticket">
+        <div class="ticket-header">
+            <p class="ticket-author">{{ item.ticket.user }}</p>
+        </div>
+        <h3 class="ticket-title">🎫 Ticket : {{ item.ticket.title }}</h3>
+        {% if item.ticket.image %}
+            <img src="{{ item.ticket.image.url }}" class="ticket-image">
+        {% endif %}
+        {% if show_post_option and item.ticket.user == request.user %}
+        <div class="ticket-footer">
+            <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
+            <a href="{% url 'delete_review' item.id %}" class="neumorphic neumorphic-button text-deco">Supprimer</a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endif %}

@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Créer un ticket</h2>
-    <div class="neumorphic neumorphic-card">
-        <form method="post" enctype="multipart/form-data">
-            {{ form.as_p }}
+    <div class="neumorphic neumorphic-home-card ticket-card">
+        <form method="post" enctype="multipart/form-data" class="form-content">
+            <h3>Titre :</h3>
+            {{ form.title }}
+            <h3>Description :</h3>
+            {{ form.description }}
+            <h3>Image</h3>
+            <div style="height: 20px;"></div>
+            {{ form.image }}
+            <label for="file-upload" class="neumorphic neumorphic-button">
+                Choisir un fichier
+            </label>
+            <script>
+                const input = document.getElementById("file-upload");
+                const label = document.querySelector("label[for='file-upload']");
+
+                input.addEventListener("change", function () {
+                    const fileName = this.files[0]?.name || "Choisir un fichier";
+                    label.textContent = fileName;
+                });
+            </script>
             {% csrf_token %}
-            <button type="submit">Envoyer</button>
+            <div style="height: 20px;"></div>
+            <div style="text-align: right;">
+                <button type="submit"  class="neumorphic neumorphic-button">Envoyer</button>
+            </div>
         </form>
     </div> 
 {% endblock content %}
