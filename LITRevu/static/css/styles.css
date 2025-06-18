@@ -21,6 +21,50 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.hamburger {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+/* Navigation responsive */
+.header-nav {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.header-nav.show {
+    display: flex;
+}
+
+/* Desktop view */
+@media screen and (min-width: 768px) {
+    .header-nav {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 0;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+    .hamburger {
+        display: block;
+    }
+}
+
 .header-bar {
     width: 100%;
     background-color: var(--bg-main);
@@ -31,7 +75,6 @@ body {
 }
 
 .header-inner {
-    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -44,14 +87,6 @@ body {
     text-align: center;
     flex-grow: 1;
     text-shadow: 1px 1px 2px var(--border-color);
-}
-
-.header-nav {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    align-items: center;
-    text-align: center;
 }
 
 .home-menu {
@@ -150,7 +185,7 @@ h1 {
     display: none;
 }
 
-
+.neumorphic-nav-button,
 .neumorphic-button {
     padding: 15px 30px;
     font-size: 16px;
@@ -159,7 +194,14 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 10px;
+}
+
+.neumorphic-button {
     width: 200px;
+}
+
+.neumorphic-nav-button {
+    width: auto;
 }
 
 .neumorphic-button:active {

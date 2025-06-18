@@ -40,7 +40,14 @@
         <p class="review-date">{{ item.time_created }}</p>
     </div>
     <h3 class="review-title">{{ item.headline }}</h3>
-    <p class="review-description">{{ item.description }} {{ item.rating }}</p>
+    <p class="review-description">{{ item.description }}</p>
+    <span>
+        {% for i in "12345" %}
+            {% if forloop.counter <= item.rating %}
+                <span style="color: gold; font-size: 24px;">&#9733;</span>
+            {% endif %}
+        {% endfor %}
+    </span>
     {% if show_post_option and item.user == request.user %}
         <div class="review-footer">
             <a href="{% url 'edit_review' item.id %}" class="neumorphic neumorphic-button text-deco">Modifier</a>
