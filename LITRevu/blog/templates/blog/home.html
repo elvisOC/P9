@@ -8,7 +8,39 @@
             <a href="{% url 'review_upload' %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
         </div>
     </div>
-{% for item in flux %}
-    {% include 'blog/_card.html' with item=item show_review_option=True show_post_option=False %}
-{% endfor %}
+    {% include 'blog/_flux_items.html' %}
+    <div id="loading" class="text-center p-4">Chargement...</div>
+    <script>
+    let page = 2;
+    let loading = false;
+
+    window.addEventListener('scroll', () => {
+        if (loading) return;
+
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loading = true;
+            fetch(`?page=${page}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.html) {
+                    document.getElementById('flux-container').insertAdjacentHTML('beforeend', data.html);
+                    if (data.has_next) {
+                        page++;
+                        loading = false;
+                    } else {
+                        document.getElementById('loading').textContent = "Fin du flux.";
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Erreur de chargement :", err);
+                loading = false;
+            });
+        }
+    });
+    </script>
 {% endblock content %}

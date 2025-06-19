@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="neumorphic neumorphic-home-card">
+    <div class="neumorphic neumorphic-home-card" style="position: relative;">
         <h2>Modifier la critique</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="neumorphic neumorphic-button text-deco">Enregistrer</button>
-            <a href="{% url 'posts' %}" class="neumorphic neumorphic-button text-deco">Annuler</a>
+            <h3>Titre</h3>
+            {{ form.headline }}
+            <h3>Note</h3>
+            <div class="rating-group">
+                {% for radio in form.rating %}
+                <label for="{{ radio.id_for_label }}" class="rating-item">
+                    {{ radio.tag }}
+                    {{ radio.choice_label }}
+                </label>
+                {% endfor %}
+            </div>
+            <h3>Commentaire</h3>
+            {{ form.body }}
+            <div class="ticket-footer" style="bottom: -20px;">
+                <button type="submit" class="neumorphic neumorphic-button text-deco">Enregistrer</button>
+                <a href="{% url 'posts' %}" class="neumorphic neumorphic-button text-deco">Annuler</a>
+            </div>
         </form>
     </div>
 {% endblock %}

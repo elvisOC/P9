@@ -1,6 +1,5 @@
-from django import forms 
+from django import forms
 from . import models
-
 
 
 class ticketForm(forms.ModelForm):
@@ -15,11 +14,12 @@ class ticketForm(forms.ModelForm):
                 'class': 'neumorphic neumorphic-input',
             }),
             'image': forms.ClearableFileInput(attrs={
-            'class': 'hidden-file-input', 
-            'id': 'file-upload', 
+                'class': 'hidden-file-input',
+                'id': 'file-upload',
             }),
         }
-        
+
+
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [(i, i) for i in range(1, 6)]
 
@@ -39,13 +39,14 @@ class ReviewForm(forms.ModelForm):
                 'class': 'neumorphic neumorphic-input',
             }),
         }
-        
+
+
 class search_user(forms.Form):
     query = forms.CharField(
-    max_length=63,
-    label="Suivre d'autres utilisateurs",
-    widget=forms.TextInput(attrs={
-        'placeholder': "Nom d'utilisateur",
-        'class': 'neumorphic neumorphic-input'
+        max_length=63,
+        label="Suivre d'autres utilisateurs",
+        widget=forms.TextInput(attrs={
+            'placeholder': "Nom d'utilisateur",
+            'class': 'neumorphic neumorphic-search'
         })
     )
