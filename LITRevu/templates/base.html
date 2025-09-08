@@ -1,39 +1,44 @@
 {% load static %}
 <html>
-<head>
-    <title>LITRevu</title>
-    <link rel="stylesheet" href="{% static '/css/styles.css' %}" />
-</head>
-<body>
-    <div class="header-bar">
-        <div class="header-inner">
+    <head>
+        <title>LITRevu</title>
+        <link rel="stylesheet" href="{% static '/css/styles.css' %}" />
+    </head>
+    <body>
+        <main>
             <div class="header-title">LITRevu</div>
-
             {% if user.is_authenticated %}
-                <button class="hamburger" onclick="toggleMenu()">☰</button>
+            <button class="hamburger" onclick="toggleMenu()">☰</button>
 
-                <div id="nav-menu" class="header-nav nav-collapsible">
-                    <a href="{% url 'home' %}" class="neumorphic neumorphic-nav-button text-deco">Flux</a>
-                    <a href="{% url 'posts' %}" class="neumorphic neumorphic-nav-button text-deco">Posts</a>
-                    <a href="{% url 'subscribe' %}" class="neumorphic neumorphic-nav-button text-deco">Abonnements</a>
-                    <a href="{% url 'logout' %}" class="neumorphic neumorphic-nav-button text-deco">Se déconnecter</a>
-                </div>
+            <div id="nav-menu" class="header-nav nav-collapsible">
+                <a href="{% url 'home' %}" class="neumorphic neumorphic-nav-button text-deco">Flux</a>
+                <a href="{% url 'posts' %}" class="neumorphic neumorphic-nav-button text-deco">Posts</a>
+                <a href="{% url 'subscribe' %}" class="neumorphic neumorphic-nav-button text-deco">Abonnements</a>
+                <a href="{% url 'logout' %}" class="neumorphic neumorphic-nav-button text-deco">Se déconnecter</a>
+            </div>
             {% endif %}
-        </div>
-    </div>
-    <div class="container">
-        {% block content %}{% endblock content %}
-    </div>
-    <div class="footer">
-        {% if user.is_authenticated %}
-            <p>Vous êtes connecté en tant que {{ request.user }}.</p>
-        {% endif %}
-    </div>
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('nav-menu');
-            menu.classList.toggle('show');
-        }
-    </script>
-</body>
+
+            <div class="container">
+                {% block content %}{% endblock content %}
+            </div>
+            <div class="footer">
+                {% if user.is_authenticated %}
+                    <p>Vous êtes connecté en tant que {{ request.user }}.</p>
+                {% endif %}
+            </div>
+            <script>
+                function toggleMenu() {
+                    const menu = document.getElementById('nav-menu');
+                    menu.classList.toggle('show');
+                }
+            </script>
+        </main>
+        <footer class="footer">
+            <div>
+                <h3>
+                    Site de démo
+                </h3>
+            </div>
+        </footer>
+    </body>
 </html>

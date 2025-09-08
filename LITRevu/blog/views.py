@@ -182,7 +182,8 @@ def subscribe(request):
     results = None
     if search_form.is_valid():
         query = search_form.cleaned_data['query']
-        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
+        abonnements_ids = UserFollows.objects.filter(user=request.user).values_list('followed_user_id', flat=True)
+        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id).exclude(id__in=abonnements_ids)
 
     abonnements = UserFollows.objects.filter(user=request.user)
     abonnes = UserFollows.objects.filter(followed_user=request.user)
@@ -199,7 +200,8 @@ def subscribe(request):
 @login_required
 def follow_user(request, user_id):
     followed = get_object_or_404(User, id=user_id)
-    UserFollows.objects.get_or_create(user=request.user, followed_user=followed)
+    if not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
+        UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
     return redirect('subscribe')
 
 

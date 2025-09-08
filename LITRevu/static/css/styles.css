@@ -13,12 +13,26 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    background-color: var(--bg-main);
+    background: url(./../img/janko-ferlic-sfL_QOnmy00-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
 }
 
 .hamburger {
@@ -28,6 +42,7 @@ body {
     cursor: pointer;
     display: none;
 }
+
 
 /* Navigation responsive */
 .header-nav {
@@ -43,28 +58,6 @@ body {
     display: flex;
 }
 
-/* Desktop view */
-@media screen and (min-width: 768px) {
-    .header-nav {
-        display: flex !important;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 0;
-    }
-
-    .hamburger {
-        display: none;
-    }
-}
-
-/* Mobile view */
-@media screen and (max-width: 767px) {
-    .hamburger {
-        display: block;
-    }
-}
-
 
 .login-page {
     display: flex;
@@ -75,8 +68,10 @@ body {
 
 .header-bar {
     width: 100%;
-    background-color: var(--bg-main);
-    border-bottom: 2px solid var(--border-color);
+    background: #2A7B9B;
+    background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 177, 199, 1) 100%, rgba(237, 221, 83, 1) 100%);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     box-sizing: border-box;
@@ -103,11 +98,9 @@ body {
     margin: 20px 0;
     height: 50px;
     justify-content: space-between;
+    gap: 10px;
 }
 
-.text-deco {
-    text-decoration: none;
-}
 
 h1 {
     color: var(--text-main);
@@ -117,14 +110,8 @@ h1 {
 .neumorphic {
     background: var(--bg-main);
     border-radius: 20px;
-    box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
 }
 
-.neumorphic-inset {
-    background: var(--bg-main);
-    border-radius: 20px;
-    box-shadow: inset 10px 10px 20px var(--shadow-dark), inset -10px -10px 20px var(--shadow-light);
-}
 
 .form-content {
     padding: 0 40px; 
@@ -148,28 +135,44 @@ h1 {
 .review-card,
 .ticket-card {
     width: 90%;
-    margin-bottom: 50px;
-    gap: 10px;
+    margin-bottom: 20px;
     padding: 20px;
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .neumorphic-subscribe {
     display: flex;
     flex-direction: column;
-    justify-content: baseline;
     padding: 30px;
     width: 90%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .neumorphic-card,
 .neumorphic-card-subscribe {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
+    margin: 20px;
+    position: relative;
+    z-index: 1;
+    width: 380px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     text-align: center;
+    
 }
 
 .neumorphic-card {
@@ -205,23 +208,35 @@ h1 {
     display: none;
 }
 
+.neumorphic-follow-button,
 .neumorphic-nav-button,
 .neumorphic-button {
-    padding: 15px 30px;
     font-size: 16px;
     color: var(--text-main);
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    transition: all 0.3s ease; 
+    box-sizing: border-box; 
+    text-align: center; 
+    display: inline-block; 
+    text-decoration: none; 
 }
 
 .neumorphic-button {
-    width: 200px;
+    width: auto;
+    margin-top: 10px;
+    padding: 15px 30px;
 }
 
 .neumorphic-nav-button {
     width: auto;
+    margin-top: -40px;
+    padding: 15px 30px;
+}
+
+.neumorphic-follow-button {
+    margin-top: -11px;
+    padding: 11px 30px;
 }
 
 .neumorphic-button:active {
@@ -247,7 +262,6 @@ h1 {
 .review-card,
 .ticket-card {
     position: relative;
-    padding: 20px 20px 40px 20px;
 }
 
 .ticket-header,
@@ -290,6 +304,91 @@ h1 {
 .ticket-footer,
 .review-footer {
     position: absolute;
-    bottom: -10px;
     right: 20px;
+}
+
+
+.ticket-footer a,
+.review-footer a {
+    position: relative;
+    bottom: 20px;
+}
+
+
+.ticket-footer p,
+.review-footer p {
+    position: relative;
+    bottom: 30px;
+}
+
+
+.follow-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Desktop view */
+@media screen and (min-width: 768px) {
+    .header-nav {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 0;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+    .hamburger {
+        display: block;
+        margin-top: -36px;
+    }
+    .header-nav.show {
+        display: flex;
+        align-items: center;
+    }
+    
+    .header-nav {
+        padding-top: 50px;
+        gap: 50px;
+        align-items: flex-start;
+        text-align: center;
+    }
+    .neumorphic-nav-button,
+    .neumorphic-button {
+        padding: 13px 18px;
+        font-size: 15px;
+        color: var(--text-main);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease; 
+        box-sizing: border-box; 
+        text-align: center; 
+        display: inline-block; 
+        text-decoration: none; 
+    }
+    .neumorphic-nav-button {
+        width: 150px;
+    }
+    .ticket-footer,
+    .review-footer {
+        position: absolute;
+        right: 20px;
+    }
+    .ticket-footer a,
+    .review-footer a {
+        position: relative;
+        bottom: 20px;
+    }
+    .ticket-footer p,
+    .review-footer p {
+        position: relative;
+        bottom: 16px;
+    }
 }

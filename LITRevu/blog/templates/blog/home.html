@@ -9,38 +9,44 @@
         </div>
     </div>
     {% include 'blog/_flux_items.html' %}
-    <div id="loading" class="text-center p-4">Chargement...</div>
+    <div id="loading" class="text-center p-4" style="display: none;">Chargement...</div>
     <script>
-    let page = 2;
-    let loading = false;
+        let page = 2
+        let loading = false
 
-    window.addEventListener('scroll', () => {
-        if (loading) return;
+        window.addEventListener('scroll', () => {
+            if (loading) return
 
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-            loading = true;
-            fetch(`?page=${page}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.html) {
-                    document.getElementById('flux-container').insertAdjacentHTML('beforeend', data.html);
-                    if (data.has_next) {
-                        page++;
-                        loading = false;
-                    } else {
-                        document.getElementById('loading').textContent = "Fin du flux.";
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+                loading = true
+                document.getElementById('loading').style.display = 'block'
+
+                fetch(`?page=${page}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
-                }
-            })
-            .catch(err => {
-                console.error("Erreur de chargement :", err);
-                loading = false;
-            });
-        }
-    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.html) {
+                        document.getElementById('flux-container').insertAdjacentHTML('beforeend', data.html)
+                        if (data.has_next) {
+                            page++
+                            loading = false
+                            document.getElementById('loading').style.display = 'none'
+                        } else {
+                            document.getElementById('loading').textContent = "Fin du flux."
+                        }
+                    } else {
+                        document.getElementById('loading').style.display = 'none'
+                    }
+                })
+                .catch(err => {
+                    console.error("Erreur de chargement :", err)
+                    loading = false
+                    document.getElementById('loading').style.display = 'none'
+                })
+            }
+        })
     </script>
 {% endblock content %}
