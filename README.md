@@ -35,7 +35,7 @@ pip install -r requirements.txt
 Lancez l'application :
 
 ```bash
-  python manage.py runserver
+python manage.py runserver
 ```
 
 Accédez à l'application via votre navigateur à l'adresse :
