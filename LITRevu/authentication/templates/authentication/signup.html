@@ -2,11 +2,11 @@
 {% block content %}
 <div class="neumorphic neumorphic-card-subscribe">
     <h2>Inscription</h2>
-        {% if form.errors %}
+        {% if signup_form.errors %}
             {{ form.errors}}
         {% endif %}
         <form method="post">
-            {{ form.as_p}}
+            {{ signup_form.as_p}}
             {% csrf_token %}
             <button class="neumorphic neumorphic-button" type="submit">S'inscrire</button>
             <a href="{% url 'login' %}" class="neumorphic neumorphic-button text-deco">Retour</a>

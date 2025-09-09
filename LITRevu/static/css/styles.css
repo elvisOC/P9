@@ -36,15 +36,15 @@ footer {
 }
 
 .hamburger {
-    font-size: 24px;
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.errorlist {
     display: none;
 }
 
-
-/* Navigation responsive */
 .header-nav {
     display: none;
     flex-direction: column;
@@ -103,7 +103,7 @@ footer {
 
 
 h1 {
-    color: var(--text-main);
+    color: black;
     margin-bottom: 20px;
 }
 
@@ -279,7 +279,7 @@ h1 {
 .ticket-date,
 .review-date {
     font-size: 0.9em;
-    color: var(--text-muted);
+    color: black;
     text-align: right;
 }
 
@@ -329,7 +329,7 @@ h1 {
 }
 
 /* Desktop view */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1321px) {
     .header-nav {
         display: flex !important;
         flex-direction: row;
@@ -338,16 +338,28 @@ h1 {
         margin-top: 0;
     }
 
+    .medium-screen {
+        display: none;
+    }
+
     .hamburger {
         display: none;
     }
 }
 
 /* Mobile view */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1320px) {
+    .large-screen {
+        display: none;
+    }
+
     .hamburger {
         display: block;
-        margin-top: -36px;
+        margin-top: -45px;
+        font-size: 35px;
+        color: black;
+        position: fixed;
+        right: 10px;
     }
     .header-nav.show {
         display: flex;
@@ -357,13 +369,23 @@ h1 {
     .header-nav {
         padding-top: 50px;
         gap: 50px;
-        align-items: flex-start;
         text-align: center;
     }
+
+    .neumorphic-card {
+        width: 400px;
+        height: 400px;
+        top: 50px;
+    }
+
+    .neumorphic-input {
+        font-size: 20px;
+    }
+
     .neumorphic-nav-button,
     .neumorphic-button {
         padding: 13px 18px;
-        font-size: 15px;
+        font-size: 20px;
         color: var(--text-main);
         border: none;
         cursor: pointer;
@@ -374,7 +396,7 @@ h1 {
         text-decoration: none; 
     }
     .neumorphic-nav-button {
-        width: 150px;
+        width: 180px;
     }
     .ticket-footer,
     .review-footer {

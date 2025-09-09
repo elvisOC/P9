@@ -12,33 +12,44 @@ def logout_user(request):
 
 class LoginPageView(View):
     template_name = 'authentication/login.html'
-    form_class = forms.LoginForm
+    login_form_class = forms.LoginForm
 
     def get(self, request):
-        form = self.form_class()
-        message = ''
-        return render(request, 'authentication/login.html', context={'form': form, 'message': message})
+        login_form = self.login_form_class()
+        return render(request, self.template_name, {
+            'login_form': login_form, 
+        })
 
     def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
+        login_form = self.login_form_class(request.POST)
+        if login_form.is_valid():
             user = authenticate(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password'],
+                username=login_form.cleaned_data['username'].lower(),
+                password=login_form.cleaned_data['password'],
             )
             if user is not None:
                 login(request, user)
                 return redirect('home')
-            message = "Identifiants invalides."
-            return render(request, 'authentication/login.html', context={'form': form, 'message': message})
+            else:
+                message = "Identifiants invalides."
+        else:
+            message ="Formulaire de connexion invalide"
+        return render(request, self.template_name, {
+            'login_form': login_form,
+            'message': message
+        })
 
 
 def signup_page(request):
-    form = forms.SignUpForm()
-    if request.method == 'POST':
-        form = forms.SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect(settings.LOGIN_REDIRECT_URL)
-    return render(request, 'authentication/signup.html', context={'form': form})
+    signup_form = forms.SignUpForm(request.POST)
+    if signup_form.is_valid():
+        user = signup_form.save()
+        login(request, user)
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    else:
+        message = "Formulaire d'inscription invalide"
+    return render(request, 'authentication/signup.html', {
+        'signup_form': signup_form,
+        'message': message
+    })
+

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="login-page">
+<div>
+    <h1>Lisez. Partagez. Discutez. Découvrez une nouvelle façon de vivre vos lectures !</h1>
+</div>
+<div class="large-screen login-page">
     <div class="neumorphic neumorphic-card">
         <h3>Pas encore de compte ?</h3>
         <a href="{% url 'signup' %}" class="neumorphic neumorphic-button">S'inscrire</a>
@@ -8,9 +11,21 @@
     <div class="neumorphic neumorphic-card">
         <p>{{ message }}</p>
         <form  method="post">
-            {{ form.as_p }}
+            {{ login_form.as_p }}
             {% csrf_token %}
             <button class="neumorphic neumorphic-button" type="submit">Se connecter</button>
+        </form>
+    </div>
+</div>
+<div class="medium-screen login-page">
+    <div class="neumorphic neumorphic-card">
+        <p>{{ message }}</p>
+        <form  method="post">
+            {{ login_form.as_p }}
+            {% csrf_token %}
+            <button class="neumorphic neumorphic-button" type="submit">Se connecter</button>
+            <h3>Pas encore de compte ?</h3>
+            <a href="{% url 'signup' %}" class="neumorphic neumorphic-button">S'inscrire</a>
         </form>
     </div>
 </div>
