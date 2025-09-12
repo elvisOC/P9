@@ -12,16 +12,23 @@ def logout_user(request):
 
 class LoginPageView(View):
     template_name = 'authentication/login.html'
-    login_form_class = forms.LoginForm
 
     def get(self, request):
-        login_form = self.login_form_class()
+        login_form_large = forms.LoginFormLarge()
+        login_form_medium = forms.LoginFormMedium()
         return render(request, self.template_name, {
-            'login_form': login_form, 
+            'login_form_large': login_form_large,
+            'login_form_medium': login_form_medium,
         })
 
     def post(self, request):
-        login_form = self.login_form_class(request.POST)
+        if 'large-screen-submit' in request.POST:
+            login_form = forms.LoginFormLarge(request.POST)
+        elif 'medium-screen-submit' in request.POST:
+            login_form = forms.LoginFormMedium(request.POST)
+        else:
+            login_form = forms.LoginFormLarge(request.POST)  
+
         if login_form.is_valid():
             user = authenticate(
                 username=login_form.cleaned_data['username'].lower(),
@@ -33,9 +40,14 @@ class LoginPageView(View):
             else:
                 message = "Identifiants invalides."
         else:
-            message ="Formulaire de connexion invalide"
+            message = "Formulaire de connexion invalide"
+
+        login_form_large = forms.LoginFormLarge()
+        login_form_medium = forms.LoginFormMedium()
+
         return render(request, self.template_name, {
-            'login_form': login_form,
+            'login_form_large': login_form_large,
+            'login_form_medium': login_form_medium,
             'message': message
         })
 

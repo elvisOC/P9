@@ -11,9 +11,9 @@
     <div class="neumorphic neumorphic-card">
         <p>{{ message }}</p>
         <form  method="post">
-            {{ login_form.as_p }}
+            {{ login_form_large.as_p }}
             {% csrf_token %}
-            <button class="neumorphic neumorphic-button" type="submit">Se connecter</button>
+            <button class="neumorphic neumorphic-button" type="large-screen-submit">Se connecter</button>
         </form>
     </div>
 </div>
@@ -21,9 +21,9 @@
     <div class="neumorphic neumorphic-card">
         <p>{{ message }}</p>
         <form  method="post">
-            {{ login_form.as_p }}
+            {{ login_form_medium.as_p }}
             {% csrf_token %}
-            <button class="neumorphic neumorphic-button" type="submit">Se connecter</button>
+            <button class="neumorphic neumorphic-button" type="medium-screen-submit">Se connecter</button>
             <h3>Pas encore de compte ?</h3>
             <a href="{% url 'signup' %}" class="neumorphic neumorphic-button">S'inscrire</a>
         </form>
