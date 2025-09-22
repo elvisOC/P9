@@ -2,6 +2,7 @@ from django import forms
 from . import models
 
 
+# Formulaire basé sur le modèle Ticket.
 class ticketForm(forms.ModelForm):
     class Meta:
         model = models.Ticket
@@ -20,7 +21,9 @@ class ticketForm(forms.ModelForm):
         }
 
 
+# Formulaire basé sur le modèle Review
 class ReviewForm(forms.ModelForm):
+    # Liste des choix possibles pour la note (1 à 5).
     RATING_CHOICES = [(i, i) for i in range(1, 6)]
 
     rating = forms.ChoiceField(
@@ -41,6 +44,7 @@ class ReviewForm(forms.ModelForm):
         }
 
 
+# Formulaire pour rechercher un utilisateur à suivre.
 class search_user(forms.Form):
     query = forms.CharField(
         max_length=63,

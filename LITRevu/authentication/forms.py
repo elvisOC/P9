@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 
+# Formulaire de connexion de base.
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=63,
@@ -22,6 +23,7 @@ class LoginForm(forms.Form):
     )
 
 
+# Formulaire de connexion pour grand écran (hérite de LoginForm).
 class LoginFormLarge(LoginForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,6 +31,7 @@ class LoginFormLarge(LoginForm):
         self.fields['password'].widget.attrs.update({'id': 'id_password_large'})
 
 
+# Formulaire de connexion pour écran moyen (hérite de LoginForm).
 class LoginFormMedium(LoginForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,6 +39,7 @@ class LoginFormMedium(LoginForm):
         self.fields['password'].widget.attrs.update({'id': 'id_password_medium'})
 
 
+# Formulaire d'inscription
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
         max_length=63,
