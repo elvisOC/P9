@@ -27,7 +27,7 @@ class LoginPageView(View):
         elif 'medium-screen-submit' in request.POST:
             login_form = forms.LoginFormMedium(request.POST)
         else:
-            login_form = forms.LoginFormLarge(request.POST)  
+            login_form = forms.LoginFormLarge(request.POST)
 
         if login_form.is_valid():
             user = authenticate(
@@ -64,4 +64,3 @@ def signup_page(request):
         'signup_form': signup_form,
         'message': message
     })
-

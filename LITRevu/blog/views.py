@@ -200,8 +200,8 @@ def subscribe(request):
 @login_required
 def follow_user(request, user_id):
     followed = get_object_or_404(User, id=user_id)
-    if not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
-        UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+    if not UserFollows.objects.filter(user=request.user, followed_user=followed).exists():
+        UserFollows.objects.create(user=request.user, followed_user=followed)
     return redirect('subscribe')
 
 

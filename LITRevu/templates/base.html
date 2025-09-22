@@ -1,9 +1,13 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="fr">
     <head>
         <title>LITRevu</title>
-        <link rel="stylesheet" href="{% static '/css/styles.css' %}" />
-        <link rel="shortcut icon" href="{% static '/img/favicon.png' %}" alt="favicon" type="image/x-icon">
+        <link rel="preload" href="{% static 'css/styles.css' %}" as="style">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        <link rel="shortcut icon" href="{% static '/img/favicon.png' %}" alt="" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     </head>
     <body>
         <main>
@@ -27,7 +31,7 @@
                     <p>Vous êtes connecté en tant que {{ request.user }}.</p>
                 {% endif %}
             </div>
-            <script>
+            <script defer>
                 function toggleMenu() {
                     const menu = document.getElementById('nav-menu');
                     menu.classList.toggle('show');

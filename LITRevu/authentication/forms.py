@@ -21,6 +21,7 @@ class LoginForm(forms.Form):
         })
     )
 
+
 class LoginFormLarge(LoginForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,6 +34,7 @@ class LoginFormMedium(LoginForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'id': 'id_username_medium'})
         self.fields['password'].widget.attrs.update({'id': 'id_password_medium'})
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
