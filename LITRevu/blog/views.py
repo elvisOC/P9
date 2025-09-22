@@ -133,12 +133,12 @@ def publier_critique(request, ticket_id=None):
 
         if ticket_form.is_valid() and review_form.is_valid():
             ticket = ticket_form.save(commit=False)
-            ticket.uploader = request.user
+            ticket.user = request.user
             ticket.save()
 
             review = review_form.save(commit=False)
             review.ticket = ticket
-            review.uploader = request.user
+            review.user = request.user
             review.save()
 
             return redirect('home')
@@ -159,6 +159,8 @@ def edit_ticket(request, ticket_id):
     form = forms.ticketForm(request.POST or None, request.FILES or None, instance=ticket)
     if form.is_valid():
         ticket = form.save(commit=False)
+        ticket.user = request.user
+        ticket.save()
         return redirect('posts')
     return render(request, 'blog/edit_ticket.html', context={'form': form})
 
@@ -180,6 +182,8 @@ def edit_review(request, review_id):
     form = forms.ReviewForm(request.POST or None, request.FILES or None, instance=review)
     if form.is_valid():
         review = form.save(commit=False)
+        review.user = request.user
+        review.save()
         return redirect('posts')
     return render(request, 'blog/edit_review.html', context={'form': form})
 

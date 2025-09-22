@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-gt)11po+)u!miy3a=omv4zdxe^%e^*@qmt7c&(ml_p#ox12ew*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["litrevu.elvisdegeitere.fr"]
 

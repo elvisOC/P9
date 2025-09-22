@@ -15,14 +15,14 @@ class LoginPageView(View):
 
 # Méthode GET : affichage du formulaire de connexion.
     def get(self, request):
-"""
-Détermine quel formulaire a été soumis en fonction du bouton cliqué.
-Vérifie si le formulaire est valide.
-Authentifie l'utilisateur avec le nom d'utilisateur et le mot de passe.
-Connecte l'utilisateur.
-Recrée les formulaire pour le rendu de la page après erreur.
-Rendu du template avec les formulaires et le message d'erreur
-"""
+        """
+        Détermine quel formulaire a été soumis en fonction du bouton cliqué.
+        Vérifie si le formulaire est valide.
+        Authentifie l'utilisateur avec le nom d'utilisateur et le mot de passe.
+        Connecte l'utilisateur.
+        Recrée les formulaire pour le rendu de la page après erreur.
+        Rendu du template avec les formulaires et le message d'erreur
+        """
         login_form_large = forms.LoginFormLarge()
         login_form_medium = forms.LoginFormMedium()
         return render(request, self.template_name, {
@@ -63,13 +63,13 @@ Rendu du template avec les formulaires et le message d'erreur
 
 # Vue pour la page d'inscription.
 def signup_page(request):
-"""
-Récupère les données du formulaire.
-Crée l'utilisateur.
-Connecte automatiquement l'utilisateur après inscription.
-Redirige vers l'URL définie dans les paramètres.
-Rendu du template avec le formulaire et le message d'erreur si nécessaire.
-"""
+    """
+    Récupère les données du formulaire.
+    Crée l'utilisateur.
+    Connecte automatiquement l'utilisateur après inscription.
+    Redirige vers l'URL définie dans les paramètres.
+    Rendu du template avec le formulaire et le message d'erreur si nécessaire.
+    """
     signup_form = forms.SignUpForm(request.POST)
     if signup_form.is_valid():
         user = signup_form.save()
