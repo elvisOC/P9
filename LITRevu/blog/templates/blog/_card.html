@@ -1,5 +1,5 @@
 {% if item.content_type == 'TICKET' %}
-<div class="neumorphic neumorphic-home-card ticket-card">
+<div class="neumorphic neumorphic-home-card ticket-card" data-id="{{ item.unique_id }}">
     <div class="ticket-header">
         {% if item.user == request.user %}
             <p class="ticket-author">Vous avez demandé une critique</p>
@@ -30,7 +30,7 @@
     {% endif %}
 </div>
 {% elif item.content_type == 'REVIEW' %}
-<div class="neumorphic neumorphic-home-card review-card">
+<div class="neumorphic neumorphic-home-card review-card" data-id="{{ item.unique_id }}">
     <div class="review-header">
         {% if item.user == request.user %}
             <p class="review-author">Vous avez publié une critique</p>

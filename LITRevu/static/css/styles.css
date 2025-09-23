@@ -130,6 +130,7 @@ h1 {
     float: right;
 }
 
+.neumorphic-edit-card,
 .neumorphic-follow,
 .neumorphic-home-card,
 .review-card,
@@ -143,6 +144,10 @@ h1 {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.neumorphic-edit-card {
+    padding-bottom: 30px;
 }
 
 .neumorphic-subscribe {
@@ -314,6 +319,10 @@ h1 {
     bottom: 20px;
 }
 
+.ticket-edit-footer {
+    position: absolute;
+    right: 35px;
+}
 
 .ticket-footer p,
 .review-footer p {

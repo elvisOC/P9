@@ -8,45 +8,69 @@
             <a href="{% url 'review_upload' %}" class="neumorphic neumorphic-button text-deco">Créer une critique</a>
         </div>
     </div>
-    {% include 'blog/_flux_items.html' %}
+    <div id="flux-container" style="width: 100%;">
+        {% include 'blog/_flux_items.html' %}
+    </div>
     <div id="loading" class="text-center p-4" style="display: none;">Chargement...</div>
-    <script>
-        let page = 2
-        let loading = false
+<script>
+let page = 2
+let loading = false
+const fluxContainer = document.getElementById('flux-container')
+const loadingIndicator = document.getElementById('loading')
 
-        window.addEventListener('scroll', () => {
-            if (loading) return
+if (!fluxContainer) {
+    console.error("Le conteneur #flux-container est introuvable !")
+} else {
 
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-                loading = true
-                document.getElementById('loading').style.display = 'block'
+    async function loadNextPage() {
+        if (loading) return
+        loading = true
+        loadingIndicator.style.display = 'block'
 
-                fetch(`?page=${page}`, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
+        try {
+            const response = await fetch(`?page=${page}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`)
+            const data = await response.json()
+
+            if (data.html) {
+                const wrapper = document.createElement('div')
+                wrapper.innerHTML = data.html;
+
+                wrapper.querySelectorAll('[data-id]').forEach(el => {
+                    if (fluxContainer.querySelector(`[data-id="${el.dataset.id}"]`)) {
+                        el.remove();
                     }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.html) {
-                        document.getElementById('flux-container').insertAdjacentHTML('beforeend', data.html)
-                        if (data.has_next) {
-                            page++
-                            loading = false
-                            document.getElementById('loading').style.display = 'none'
-                        } else {
-                            document.getElementById('loading').textContent = "Fin du flux."
-                        }
-                    } else {
-                        document.getElementById('loading').style.display = 'none'
-                    }
-                })
-                .catch(err => {
-                    console.error("Erreur de chargement :", err)
-                    loading = false
-                    document.getElementById('loading').style.display = 'none'
-                })
+                });
+
+                fluxContainer.appendChild(wrapper)
+
+                page++
+
+                if (!data.has_next) {
+                    loadingIndicator.textContent = "Fin du flux."
+                    window.removeEventListener('scroll', onScroll)
+                }
+            } else {
+                loadingIndicator.style.display = 'none'
             }
-        })
-    </script>
+        } catch (err) {
+            console.error("Erreur de chargement :", err)
+        } finally {
+            loading = false
+            if (!loading) loadingIndicator.style.display = 'none'
+        }
+    }
+
+    function onScroll() {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            loadNextPage()
+        }
+    }
+
+    window.addEventListener('scroll', onScroll)
+}
+</script>
 {% endblock content %}

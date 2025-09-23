@@ -36,8 +36,10 @@ def home(request):
     # Ajout d'un attribut pour identifier le type de contenu.
     for t in tickets:
         t.content_type = 'TICKET'
+        t.unique_id = f"TICKET-{t.id}"
     for r in reviews:
         r.content_type = 'REVIEW'
+        t.unique_id = f"REVIEW-{t.id}"
 
     # Crée un set d'IDs de tickets qui ont une critique.
     tickets_with_review = set(review.ticket.id for review in reviews)
@@ -47,8 +49,8 @@ def home(request):
         ticket.has_review = int(ticket.id) in tickets_with_review
 
     # Mélange tickets et critiques et tri par date de création décroissante.
-    flux = sorted(
-        list(tickets) + list(reviews),
+    flux = list(tickets) + list(reviews)
+    flux.sort(
         key=lambda instance: instance.time_created,
         reverse=True
     )

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="neumorphic neumorphic-home-card" style="position: relative;">
+    <div class="neumorphic neumorphic-edit-card" style="position: relative;">
         <h2>Modifier la critique</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -17,7 +17,7 @@
             </div>
             <h3>Commentaire</h3>
             {{ form.body }}
-            <div class="ticket-footer" style="bottom: -20px;">
+            <div class="ticket-edit-footer">
                 <button type="submit" class="neumorphic neumorphic-button text-deco">Enregistrer</button>
                 <a href="{% url 'posts' %}" class="neumorphic neumorphic-button text-deco">Annuler</a>
             </div>
