@@ -28,6 +28,10 @@ main {
     padding: 20px;
 }
 
+.img-card {
+    width: 200px;
+}
+
 footer {
     color: white;
     text-align: center;
@@ -191,7 +195,7 @@ h1 {
 .neumorphic-search {
     padding: 15px;
     font-size: 16px;
-    color: var(--text-main);
+    color: black;
     border: none;
     outline: none;
 }
@@ -199,7 +203,7 @@ h1 {
 .neumorphic-input {
     padding: 15px;
     font-size: 16px;
-    color: var(--text-main);
+    color: black;
     border: none;
     outline: none;
     width: 90%
@@ -301,7 +305,7 @@ h1 {
 
 .ticket-image {
     align-self: flex-start;
-    max-width: 300px;
+    width: 200px;
     height: auto;
     border-radius: 8px;
 }
@@ -389,13 +393,14 @@ h1 {
 
     .neumorphic-input {
         font-size: 20px;
+        color: black;
     }
 
     .neumorphic-nav-button,
     .neumorphic-button {
         padding: 13px 18px;
         font-size: 20px;
-        color: var(--text-main);
+        color: black;
         border: none;
         cursor: pointer;
         transition: all 0.3s ease; 

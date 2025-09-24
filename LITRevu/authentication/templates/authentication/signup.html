@@ -2,8 +2,8 @@
 {% block content %}
 <div class="neumorphic neumorphic-card-subscribe">
     <h2>Inscription</h2>
-        {% if signup_form.errors %}
-            {{ form.errors}}
+        {% if message %}
+            {{ message }}
         {% endif %}
         <form method="post">
             {{ signup_form.as_p}}

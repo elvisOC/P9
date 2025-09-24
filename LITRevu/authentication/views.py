@@ -77,7 +77,7 @@ def signup_page(request):
         return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         message = "Formulaire d'inscription invalide"
-    return render(request, 'authentication/signup.html', {
-        'signup_form': signup_form,
-        'message': message
-    })
+        return render(request, 'authentication/signup.html', {
+            'signup_form': signup_form,
+            'message': message
+        })
